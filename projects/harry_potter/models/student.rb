@@ -2,7 +2,7 @@ require_relative( '../db/sql_runner' )
 require('pry-byebug')
 class Student
 
-  attr_accessor( :first_name, :second_name, :house, :age, :id )
+  attr_accessor( :first_name, :second_name, :house, :age, :id, :pic )
 
   def initialize( options )
     @id = nil || options['id'].to_i
@@ -10,13 +10,14 @@ class Student
     @second_name = options['second_name']
     @house = options['house']
     @age = options['age']
+    @pic = options['pic']
   end
 
   def save()
     sql = "INSERT INTO students (
-      first_name, second_name, house, age
+      first_name, second_name, house, age, pic
     ) VALUES (
-      '#{ @first_name }','#{ @second_name }', '#{ @house }', '#{ @age }'
+      '#{ @first_name }','#{ @second_name }', '#{ @house }', '#{ @age }', '#{ @pic }'
     ) RETURNING *"
     student_data = SqlRunner.run(sql)
     @id = student_data.first()['id'].to_i
@@ -39,7 +40,7 @@ class Student
   def self.update( options )
     sql = "UPDATE students SET
       first_name='#{ options['first_name'] }',
-      second_name='#{ options['second_name'] }', house='#{ options['house'] }', age='#{ options['age'] }'
+      second_name='#{ options['second_name'] }', house='#{ options['house'] }', age='#{ options['age'] }', pic='#{ options['pic'] }'
       WHERE id='#{ options['id'] }'"
     SqlRunner.run( sql )
   end

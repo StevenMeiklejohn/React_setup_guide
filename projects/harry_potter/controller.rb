@@ -52,6 +52,10 @@ end
 
 
 get '/welcome/gryffindor' do
+  @house = House.find(1)
+
+  @students = @house.students()
+
   erb( :gryffindor )
 end
 

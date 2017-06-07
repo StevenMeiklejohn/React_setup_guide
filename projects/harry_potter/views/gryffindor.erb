@@ -3,4 +3,23 @@
 
 <h1>Gryffindor</h1>
 
+<div class="student_by_house">
+
+<% for student in @students %>
+<div class="student_data">
+<p>Student Name</p>
+<p><%= student.first_name + " " + student.second_name %></p>
+<p>Age</p>
+<p><%= student.age %></p>
+</div>
+<div class="student_pic">
+<img src="<%= student.pic %>" alt=""/>
+</div>
+<% end %>
+
+
+  
+
+</div>
+
 </html>

@@ -1,4 +1,5 @@
 require_relative( '../db/sql_runner' )
+require_relative('./student')
 require('pry-byebug')
 class House
 
@@ -6,7 +7,7 @@ class House
 
   def initialize( options )
     @id = nil || options['id'].to_i
-    @name = nil || options['id']
+    @name = options['name']
   end
 
   def save()
@@ -26,10 +27,10 @@ class House
     return result
   end
 
-  def self.find( id )
+  def self.find(id)
     sql = "SELECT * FROM houses WHERE id=#{id}"
     house = SqlRunner.run( sql )
-    result = house.new( House.first )
+    result = House.new( house.first )
     return result
   end
 
@@ -44,5 +45,14 @@ class House
     sql = "DELETE FROM houses WHERE id=#{ id }"
     SqlRunner.run( sql )
   end
+
+  def students()
+    sql = "SELECT * FROM students WHERE house = '#{ @name }'"
+    students = SqlRunner.run(sql)
+    result = students.map { |student| Student.new( student ) }
+    return result
+  end
+
+
 
 end
