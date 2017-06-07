@@ -1,0 +1,14 @@
+
+
+
+<h1>Students</h1>
+<% for student in @students %>
+<p><a href="/welcome/index/<%= student.id %>" text-align="left"</a></p>
+<p>ID: <%= student.id() %></p>
+<p>First Name: <%= student.first_name %></p>
+<p>Surname: <%= student.second_name %></p>
+<p>House: <%= student.house %></p>
+<p>Age: <%= student.age %></p>
+<hr/>
+<hr/>
+<% end %>
