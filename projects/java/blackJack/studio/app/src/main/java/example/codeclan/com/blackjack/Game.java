@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static android.R.id.input;
+import static android.R.id.pasteAsPlainText;
 
 /**
  * Created by user on 22/06/2017.
@@ -15,14 +16,16 @@ public class Game {
     private ArrayList<Participant> notOut;
     private Dealer dealer;
     private Deck deck;
+    private Ui ui;
     private Card card;
     private Scanner sc;
 
 
-    public Game(Player[] players, Deck deck, Dealer dealer) {
+    public Game(Player[] players, Deck deck, Dealer dealer, Ui ui) {
         this.players = players;
         this.deck = deck;
         this.dealer = dealer;
+        this.ui = ui;
         sc = new Scanner(System.in);
     }
 
@@ -35,19 +38,13 @@ public class Game {
 
     public void dealCard(Participant participant) {
         Card card = deck.dealCard(participant);
-        System.out.println("");
-        System.out.println("=======");
-        System.out.println(participant.getName() + " receives " + card.returnFormattedCard());
-        System.out.println("=======");
+        ui.dealCard(participant, card);
         stickOrTwist(participant);
     }
 
     public void showHands() {
         for (Player player : players) {
-            System.out.println("");
-            System.out.println("=======");
-            System.out.println(player.getName() + " has ");
-            System.out.println("=======");
+            ui.showHands(player);
             player.getHand().showHand();
          }
     }
@@ -80,12 +77,9 @@ public class Game {
             notOut.add(participant);
             return;
         }
-        System.out.println(participant.getName() + " has");
+        ui.preShowHand(participant);
         participant.getHand().showHand();
-        System.out.println("Total value is " + participant.getHandValue());
-        System.out.println(participant.getName() + ", would you like to stick or twist?");
-        System.out.println("=======");
-        System.out.println("Press s to stick or t to twist");
+        ui.stickOrTwist(participant);
         while (active) {
         String selection = sc.nextLine();
            switch(selection){
@@ -94,7 +88,7 @@ public class Game {
                case "s":
                    return;
                 default :
-                    System.out.println("=============");
+                    ui.separator();
             }
         }
     }
@@ -103,8 +97,7 @@ public class Game {
 
     public Boolean checkBust(Participant participant){
         if(participant.getHandValue() > 21) {
-            System.out.println(participant.getName() + " is bust!");
-            System.out.println("=============");
+            ui.checkBust(participant);
             return true;
         }
         else{
@@ -114,8 +107,7 @@ public class Game {
 
     public Boolean checkBlackJack(Participant participant){
         if(participant.getHandValue() == 21) {
-            System.out.println(participant.getName() + "has Blackjack!");
-            System.out.println("=============");
+            ui.checkBlackJack(participant);
             return true;
         }
         else{
@@ -127,7 +119,6 @@ public class Game {
         int winning_score = 0;
         for(Participant participant: players){
             if(checkBust(participant) == false){
-                w
             }
         }
     }
